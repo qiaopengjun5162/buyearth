@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Foundry Template
 
 This is a template project to quickly bootstrap Ethereum application development using Foundry. Foundry is a blazing-fast, modular toolkit for Ethereum development written in Rust.
@@ -173,3 +174,6 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 ---
 
 **Happy Coding!** 🚀
+=======
+# buyearth
+>>>>>>> bdefa559a485a7973972faeb06807954963abd0d
