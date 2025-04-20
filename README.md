@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Foundry Template
 
 This is a template project to quickly bootstrap Ethereum application development using Foundry. Foundry is a blazing-fast, modular toolkit for Ethereum development written in Rust.

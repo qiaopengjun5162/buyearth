@@ -37,7 +37,7 @@ export default function Home() {
   const [transactions, setTransactions] = useState<any[]>([])
   const { toast } = useToast()
 
-  const contractAddress = "0xDa6aD5531f4ADa05a342B763DB8Ff66B5110771D" // Replace with actual contract address
+  const contractAddress = "0xcA7EC1c665C252067e2CfbE55E40Aa29777A1B7E" // Replace with actual contract address
 
   // Check if wallet was previously connected
   useEffect(() => {

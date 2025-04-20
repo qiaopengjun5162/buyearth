@@ -1,19 +1,16 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.24;
 
 contract BuyEarth {
     uint256 private constant PRICE = 0.001 ether;
     address private owner;
-    uint[100] private squares;
+    uint256[100] private squares;
     address[] private depositorList;
     mapping(address => uint256) public userDeposits;
 
-    event BuySquare(uint8 idx, uint color);
-    event OwnershipTransferred(
-        address indexed oldOwner,
-        address indexed newOwner
-    );
-    event ColorChanged(uint8 indexed idx, uint color);
+    event BuySquare(uint8 idx, uint256 color);
+    event OwnershipTransferred(address indexed oldOwner, address indexed newOwner);
+    event ColorChanged(uint8 indexed idx, uint256 color);
     event Deposited(address indexed sender, uint256 amount);
     event Receive(address indexed sender, uint256 amount);
 
@@ -26,15 +23,15 @@ contract BuyEarth {
         owner = msg.sender;
     }
 
-    function getSquares() public view returns (uint[] memory) {
-        uint[] memory _squares = new uint[](100);
-        for (uint i = 0; i < 100; i++) {
+    function getSquares() public view returns (uint256[] memory) {
+        uint256[] memory _squares = new uint256[](100);
+        for (uint256 i = 0; i < 100; i++) {
             _squares[i] = squares[i];
         }
         return _squares;
     }
 
-    function buySquare(uint8 idx, uint color) public payable {
+    function buySquare(uint8 idx, uint256 color) public payable {
         // === Checks ===
         require(idx < 100, "Invalid square number");
         require(msg.value >= PRICE, "Incorrect price");
@@ -47,10 +44,10 @@ contract BuyEarth {
 
         // === Interactions ===
         if (change > 0) {
-            (bool success1, ) = msg.sender.call{value: change}("");
+            (bool success1,) = msg.sender.call{value: change}("");
             require(success1, "Change return failed");
         }
-        (bool success2, ) = owner.call{value: PRICE}("");
+        (bool success2,) = owner.call{value: PRICE}("");
         require(success2, "Owner payment failed");
     }
 
@@ -69,14 +66,16 @@ contract BuyEarth {
     function withdrawTo(address recipient) public onlyOwner {
         require(recipient != address(0), "Invalid recipient address");
         uint256 balance = address(this).balance;
+
         require(balance > 0, "No funds to withdraw");
+        require(depositorList.length > 0, "No depositors");
 
         address[] memory depositors = _getAllDepositors(); // 获取所有存款用户
-        for (uint i = 0; i < depositors.length; i++) {
+        for (uint256 i = 0; i < depositors.length; i++) {
             userDeposits[depositors[i]] = 0;
         }
 
-        (bool success, ) = recipient.call{value: balance}("");
+        (bool success,) = recipient.call{value: balance}("");
         require(success, "Withdrawal failed");
     }
 
@@ -90,11 +89,11 @@ contract BuyEarth {
         return owner;
     }
 
-    function getColor(uint8 idx) public view returns (uint) {
+    function getColor(uint8 idx) public view returns (uint256) {
         return squares[idx];
     }
 
-    function setColor(uint8 idx, uint color) public onlyOwner {
+    function setColor(uint8 idx, uint256 color) public onlyOwner {
         require(idx < 100, "Invalid square number");
         squares[idx] = color;
         emit ColorChanged(idx, color);
